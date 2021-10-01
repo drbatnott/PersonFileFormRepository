@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace PersonEntryForm
 {
@@ -38,6 +39,24 @@ namespace PersonEntryForm
             {
                 dataListBox.Items.Add("Name, " + p.Name);
                 dataListBox.Items.Add("Mass in kg, " + p.Mass);
+            }
+            saveToolStripMenuItem.Enabled = true;
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Csv Files (*.csv)|*.csv|Text Files(*.txt)|*.txt";
+            if(saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                TextWriter tw = new StreamWriter(saveFileDialog.FileName);
+                tw.WriteLine("Person Name,Person Mass Kg");
+                foreach(PersonClass p in persons)
+                {
+                    tw.WriteLine(p.Name + "," + p.Mass);
+                }
+                tw.Close();
+
             }
         }
     }
