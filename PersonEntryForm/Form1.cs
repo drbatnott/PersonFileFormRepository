@@ -12,6 +12,8 @@ namespace PersonEntryForm
 {
     public partial class PersonDataEntryForm : Form
     {
+        PersonClass person;
+        List<PersonClass> persons;
         public PersonDataEntryForm()
         {
             InitializeComponent();
@@ -19,15 +21,24 @@ namespace PersonEntryForm
 
         private void PersonDataEntryForm_Load(object sender, EventArgs e)
         {
-
+            persons = new List<PersonClass>();
         }
 
         private void addDataButton_Click(object sender, EventArgs e)
         {
             string name = nameTextBox.Text;
             float massInKg = (float)Double.Parse(massKgTextBox.Text);
-            dataListBox.Items.Add("Name, " + name);
-            dataListBox.Items.Add("Mass in kg, " + massInKg);
+            person = new PersonClass(name, massInKg);
+            persons.Add(person);
+            if(dataListBox.Items.Count > 0)
+            {
+                dataListBox.Items.Clear();
+            }
+            foreach(PersonClass p in persons)
+            {
+                dataListBox.Items.Add("Name, " + p.Name);
+                dataListBox.Items.Add("Mass in kg, " + p.Mass);
+            }
         }
     }
 }
